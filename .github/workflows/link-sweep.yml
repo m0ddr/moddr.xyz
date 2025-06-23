@@ -1,0 +1,74 @@
+name: Check Links
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install git+https://github.com/m0ddr/link-sweep.git
+      
+      - name: Run link-sweep
+        id: check
+        run: |
+          if link-sweep content/ --timeout 10 > results.txt 2>&1; then
+            echo "status=pass" >> $GITHUB_OUTPUT
+          else
+            echo "status=fail" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Manage issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const results = fs.readFileSync('results.txt', 'utf8');
+            const status = '${{ steps.check.outputs.status }}';
+            
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['broken-links'],
+              state: 'open'
+            });
+
+            if (status === 'pass') {
+              for (const issue of issues.data) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed'
+                });
+              }
+            } else {
+              const body = `# Link Check Results\nDate: ${new Date().toISOString()}\n\n\`\`\`\n${results}\n\`\`\``;
+              
+              if (issues.data.length > 0) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issues.data[0].number,
+                  body: body
+                });
+              } else {
+                await github.rest.issues.create({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  title: '🔗 Broken Links Detected',
+                  body: body,
+                  labels: ['broken-links']
+                });
+              }
+            }
