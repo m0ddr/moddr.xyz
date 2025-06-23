@@ -1,0 +1,3 @@
+[submodule "themes/halcyon"]
+	path = themes/halcyon
+	url = https://github.com/m0ddr/halcyon
