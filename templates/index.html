@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block description %}{{ section.description | default(value=config.description) }}{% endblock description %}">
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    {% block extra_head %}
+    <link rel="stylesheet" href="{{ get_url(path='style.css', cachebust=true) }}"> 
+    {% endblock extra_head %}
+    {% block feed_link %}
+        {% if config.generate_feeds %}
+            {% if config.feed_filenames %}
+                {% for feed in config.feed_filenames %}
+                    {% if feed == "atom.xml" %}
+                        <link rel="alternate" type="application/atom+xml" title="{{ config.title | safe }} - Atom Feed" href="{{ get_url(path=feed, trailing_slash=false) | safe }}">
+                    {% elif feed == "rss.xml" %}
+                        <link rel="alternate" type="application/rss+xml" title="{{ config.title | safe }} - RSS Feed" href="{{ get_url(path=feed, trailing_slash=false) | safe }}">
+                    {% else %}
+                        <link rel="alternate" href="{{ get_url(path=feed, trailing_slash=false) | safe }}">
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <link rel="alternate" type="application/atom+xml" title="{{ config.title | safe }}" href="{{ get_url(path='atom.xml', trailing_slash=false) | safe }}">
+            {% endif %}
+        {% endif %}
+    {% endblock %}
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+</head>
+<body>
+    {% block header %}
+    <header>
+        <section class="info">
+            {% if section.extra.avatar %}
+            <img class="avatar" src="{{ section.extra.avatar }}" alt="avatar">
+            {% endif %}
+            <div class="info-content">
+                <div class="info-header">
+                    {{ config.author }}
+                    {% if section.extra.username %}
+                    <span class="accent">@{{ section.extra.username }}</span>
+                    {% endif %}
+                </div>
+                {% if section.extra.bio %}
+                <div class="secondary">{{ section.extra.bio }}</div>
+                {% endif %}
+            </div>
+        </section>
+        {% set linked_pages = section.pages | filter(attribute="extra.in_header") %}
+        {% if config.extra.links or linked_pages %}
+        <nav class="header-links">
+            {% set blog = get_section(path="posts/_index.md") %}
+            <a href="{{ blog.permalink }}">posts</a>
+            {% for page in linked_pages %}
+            <a href="{{ page.permalink }}">{{ page.title }}</a>
+            {% endfor %}
+            {% for link in config.extra.links %}
+            <a href="{{ link.href }}">{{ link.title }}</a>
+            {% endfor %}
+        </nav>
+        {% endif %}
+    </header>
+    {% endblock header %}
+    {% block content %}
+    {% if section.content or blog.pages %}
+    <main>
+        <div class="doublespace">
+        {% if section.content %}
+            {{ section.content | safe }}
+        {% endif %}
+        </div>
+        {% if blog.pages %} 
+        <h3 class="secondary">Recent posts:</h3>
+        <ul>
+            {% for post in blog.pages | slice(end=5) %}
+            <li><a href="{{ post.permalink }}">{{ post.title }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </main>
+    {% endif %}
+    {% endblock content %}
+    <div class="dark-mode-buttons">
+        <button class="dark-mode-button" id="dark-mode-on"><img src="{{ get_url(path='icons/moon.svg') }}" width="24" height="24" alt="Dark mode" aria-label="dark mode toggle" title="Dark mode"></button>
+        <button class="dark-mode-button" id="dark-mode-off"><img src="{{ get_url(path='icons/sun.svg') }}" width="24" height="24" style="filter: invert(100%);" alt="Light mode" aria-label="light mode toggle" title="Light mode"></button>
+    </div>
+    <script src="{{ get_url(path='/js/codeblocks.js', cachebust=true) }}"></script>
+    <script src="{{ get_url(path='/js/theme.js', cachebust=true) }}"></script>
+    <script src="{{ get_url(path='js/github.js', cachebust=true) }}"></script>
+    </body>
+</html>

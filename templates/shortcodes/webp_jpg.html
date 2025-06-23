@@ -1,0 +1,11 @@
+{% set base_url = base_url | default(value="https://cdn.moddr.xyz") %}
+{% set full_src = base_url ~ "/" ~ src %}
+
+<picture>
+  <source srcset="{{ full_src | replace(from=".jpg", to=".webp") | replace(from=".jpeg", to=".webp") }}" type="image/webp">
+  <img src="{{ full_src }}" alt="{{ alt | default(value="") }}" 
+       {% if class %}class="{{ class }}"{% endif %}
+       {% if width %}width="{{ width }}"{% endif %}
+       {% if height %}height="{{ height }}"{% endif %}
+       loading="{{ loading | default(value="lazy") }}">
+</picture>
