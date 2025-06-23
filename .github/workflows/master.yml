@@ -60,12 +60,12 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
-      - run: pip install git+https://github.com/m0ddr/link-sweep.git
+      - run: pip install link-sweep
       
       - name: Run link-sweep
         id: check
         run: |
-          if link-sweep content/ --timeout 10 > results.txt 2>&1; then
+          if link-sweep --timeout 10 > results.txt 2>&1; then
             echo "status=pass" >> $GITHUB_OUTPUT
           else
             echo "status=fail" >> $GITHUB_OUTPUT
