@@ -1,0 +1,27 @@
+base_url = "https://moddr.xyz"
+title = "Moddr's Blog"
+description = "My personal site to record my thoughts"
+author = "Kieran Johnstone"
+
+compile_sass = true
+build_search_index = true
+minify_html = true
+
+taxonomies = [
+    { name = "tags" },
+]
+
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+
+theme = "halcyon"
+
+[markdown]
+highlight_code = true
+highlight_theme = "boron"
+bottom_footnotes = true
+
+[extra]
+links = [
+    { title = "github", href = "https://github.com/m0ddr" },
+]
