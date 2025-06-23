@@ -23,6 +23,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Install theme
+        run: |
+          if [ ! -d "themes/halcyon" ]; then
+            git clone https://github.com/m0ddr/halcyon themes/halcyon
+          fi
       - uses: taiki-e/install-action@v2
         with:
           tool: zola@0.19.1
@@ -48,6 +55,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: true
       - uses: actions/setup-python@v4
         with:
           python-version: '3.11'
