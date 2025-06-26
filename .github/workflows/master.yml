@@ -65,7 +65,7 @@ jobs:
       - name: Run link-sweep
         id: check
         run: |
-          if link-sweep --timeout 10 > results.txt 2>&1; then
+          if link-sweep check-links > results.txt 2>&1; then
             echo "status=pass" >> $GITHUB_OUTPUT
           else
             echo "status=fail" >> $GITHUB_OUTPUT
