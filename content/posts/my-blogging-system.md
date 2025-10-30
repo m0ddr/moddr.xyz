@@ -18,9 +18,6 @@ I put a lot of time into creating something very professional and "modern-lookin
 
 So then, what's different about now? As you may have noticed, the site you are looking at is a lot more minimal compared to most modernized web pages. This is by design. I built this theme from a fork of [zola-hook](https://github.com/InputUsername/zola-hook) which had a very small footprint and a simple layout. The thinking behind this decision would be that I could escape the mental block of having to produce something approaching perfection.
 
-# Technologies
-All of the technical aspects of what powers this blog.
-
 ## Static Site Generator
 The static site generator I'm using currently is [Zola](https://www.getzola.org/). I was originally considering creating this site using a Python framework such as fastHTML but ultimately decided against it. Before switching to Zola, I was previously using [Hugo](https://gohugo.io/), however I have a few gripes with Hugo that gave Zola the edge. Primarily though, I like the fact that with Zola, you can overwrite anything set in the themes directory within your own directories. The themes directory and its contents just mimic the directory structure at the root of your project. With Hugo, a theme is sort-of required, because Hugo needs to know a layout/template that should be used to render your content. The vast majority of Hugo users prefer precrafted templates and layouts and whilst there are extensive themes to choose from, you lock yourself in after making a choice.
 
