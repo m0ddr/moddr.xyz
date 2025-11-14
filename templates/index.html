@@ -71,8 +71,7 @@
         {% if section.content %}
             {{ section.content | safe }}
         {% endif %}
-        </div>
-        {% if blog.pages %} 
+        {% if blog.pages %}
         <h3 class="secondary">Recent posts:</h3>
         <ul>
             {% for post in blog.pages | slice(end=5) %}
