@@ -30,15 +30,13 @@ For this blog iteration, I've decided to use GitHub Pages. That way I don't have
 In previous iterations of my blogs, I didn't actually make an effort to categorise or sort my posts. This time I'm making use of tags. Conceptually, I'm sort of using tags like categories, but since Zola handles taxonomies all the same, I think it is more modern. All tags can be viewed by visiting the [/tags](/tags) page.
 
 ## Images
-I recently watched an interesting video about optimizing images. Essentially I'm using the same strategy, utilizing object storage via [Cloudflare R2](https://developers.cloudflare.com/r2/).
+I recently watched an [interesting video](https://www.youtube.com/watch?v=N16q_JVIPqQ&t) about optimizing images. Essentially I'm using the same strategy, utilizing object storage via [Cloudflare R2](https://developers.cloudflare.com/r2/).
 
-{{youtube(id="N16q_JVIPqQ")}}
-
-I didn't opt to use *"bespoke,"* however, which was the tool referenced in the video. ImageMagick is more than capable of converting any images to the desired format and is available on most Linux systems. So my workflow is to convert any images I use in posts, and a cobbled-together bash script assists with the process of converting and uploading images. I have a custom shortcode for use specifically within this blog that allows me to serve images from object storage using WebP and JPEG for fallback.
+I didn't opt to use [Bespoke](https://github.com/tmcw/bespoke) (the tool referenced in the video). ImageMagick is more than capable of converting images to the desired format and is available on most Linux systems. My workflow involves converting any images I use in posts, with a bash script to handle the conversion and upload process. I've created a custom shortcode for this blog that serves images from object storage using WebP with JPEG as a fallback.
 
 **Example:**
 
-{{webp_jpg(src="test.jpg")}}
+{{webp_jpg(src="test.jpg", alt="an image of a circuit board to serve as an example of image delivery via a custom content delivery network", caption="Example low-res image being served via my custom image CDN")}}
 
 ## Bit Rot Mitigation
 Lastly, to combat bit rot of my posts, I use a custom-built dead link checker called link-sweep. I designed it to be runnable via GitHub actions. 

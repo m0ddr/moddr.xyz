@@ -23,5 +23,5 @@ bottom_footnotes = true
 
 [extra]
 links = [
-    { title = "github", href = "https://github.com/m0ddr" },
+    { title = "Github", href = "https://github.com/m0ddr" },
 ]
