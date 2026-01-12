@@ -14,7 +14,7 @@ taxonomies = [
 generate_feeds = true
 feed_filenames = ["atom.xml"]
 
-theme = "halcyon"
+theme = "grotesk"
 
 [markdown]
 highlight_code = true
